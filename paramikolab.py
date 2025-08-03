@@ -37,4 +37,4 @@ for index, ip in enumerate(network):
         ssh.close()
 
     except Exception as e:
-        print(f"Failed to connect to {ip}: {e}")
+        print(f"Failed to connect to {ip}: {e}.")
