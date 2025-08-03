@@ -57,3 +57,4 @@ for hostname, (ip, commands) in devices.items():
     with ConnectHandler(**device_params) as ssh:
         result = ssh.send_config_set(commands)
         print(result)
+
