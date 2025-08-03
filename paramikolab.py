@@ -38,3 +38,4 @@ for index, ip in enumerate(network):
 
     except Exception as e:
         print(f"Failed to connect to {ip}: {e}.")
+        
