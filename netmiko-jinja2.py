@@ -44,8 +44,9 @@ devices = {
                 'default_originate': True
             },
             'interfaces': [
-                {'name': 'range g0/1-2', 'vrf': 'control-data', 'nat': 'inside'},
-                {'name': 'g0/3', 'vrf': 'control-data', 'dhcp': True, 'nat': 'outside'}
+                {'name': 'gi0/1', 'vrf': 'control-data', 'nat': 'inside'},
+                {'name': 'gi0/2', 'vrf': 'control-data', 'nat': 'inside'},
+                {'name': 'gi0/3', 'vrf': 'control-data', 'nat': 'outside'}
             ],
             'acls': [
                 {'number': 1, 'network': '172.31.13.0', 'wildcard': '0.0.0.255'},
@@ -83,10 +84,12 @@ for hostname, data in devices.items():
         'username': username,
         'use_keys': True,
         'key_file': privatekey,
-        "disabled_algorithms": dict(pubkeys=['rsa-sha2-512', 'rsa-sha2-256'])
+        "disabled_algorithms": dict(pubkeys=['rsa-sha2-512', 'rsa-sha2-256']),
+        "session_log": f"{hostname}_session.log",
     }
 
     print(f"\n--- Connecting to {hostname} ({ip}) ---")
     with ConnectHandler(**device_params) as ssh:
-        result = ssh.send_config_set(rendered_config.splitlines())
+        ssh.send_command("terminal length 0")
+        result = ssh.send_config_set(rendered_config.splitlines(), read_timeout=60)
         print(result)

@@ -20,14 +20,23 @@ router ospf {{ ospf.process_id }} vrf {{ ospf.vrf }}
 {%- if interfaces %}
 {%- for intf in interfaces %}
 interface {{ intf.name }}
-{%- if intf.vrf %} vrf forwarding {{ intf.vrf }}{% endif %}
-{%- if intf.ip %} ip address {{ intf.ip }}{% if intf.mask %} {{ intf.mask }}{% endif %}{% endif %}
-{%- if intf.dhcp %} ip address dhcp{% endif %}
-{%- if intf.nat %} ip nat {{ intf.nat }}{% endif %}
+{%- if intf.vrf %}
+ vrf forwarding {{ intf.vrf }}
+{%- endif %}
+{%- if intf.ip %}
+ ip address {{ intf.ip }}{{ ' ' + intf.mask if intf.mask }}
+{%- endif %}
+{%- if intf.dhcp %}
+ ip address dhcp
+{%- endif %}
+{%- if intf.nat %}
+ ip nat {{ intf.nat }}
+{%- endif %}
  no shutdown
  exit
 {%- endfor %}
 {%- endif %}
+
 
 {%- if acls %}
 {%- for acl in acls %}
