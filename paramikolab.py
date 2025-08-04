@@ -6,14 +6,14 @@ ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 network = [
-    "172.31.13.1",
-    "172.31.13.2",
-    "172.31.13.3",
-    "172.31.13.4",
-    "172.31.13.5"
+    ("R0", "172.31.13.1"),
+    ("R1", "172.31.13.2"),
+    ("R2", "172.31.13.3"),
+    ("S0", "172.31.13.4"),
+    ("S1", "172.31.13.5"),
 ]
 
-for index, ip in enumerate(network):
+for index, (name, ip) in enumerate(network):
     try:
         ssh.connect(
             hostname=ip,
@@ -30,9 +30,9 @@ for index, ip in enumerate(network):
 
         if index == 0:
             stdin, stdout, stderr = ssh.exec_command("show running-config")
-            with open('R0_running_config', 'w') as file:
+            with open(f'{name}_running_config', 'w') as file:
                 file.write(stdout.read().decode())
-            print("Saving R0 running config")
+            print(f"Saving {name} running config")
 
         ssh.close()
 
