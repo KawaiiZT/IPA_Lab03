@@ -13,6 +13,13 @@ devices = {
         "network 172.31.13.0 0.0.0.255 area 0",
         "network 10.13.0.0 0.0.255.255 area 0",
         "exit"
+        # add extended ACL
+        "access-list 101 permit 172.31.13.0 0.0.0.255",
+        "access-list 101 permit 10.13.3.5 0.0.0.0",
+        "line vty 0 4",
+        "access-class 101 in",
+        "transport input telnet ssh",
+        "end"
     ]),
     'R2': ('172.31.13.5', [
         "int Loopback0", 
@@ -29,6 +36,13 @@ devices = {
         "access-list 1 permit 172.31.13.0 0.0.0.255",
         "access-list 1 permit 10.13.0.0 0.0.255.255",
         "ip nat inside source list 1 interface GigabitEthernet0/3 vrf control-data overload"
+        # add extended ACL
+        "access-list 101 permit 172.31.13.0 0.0.0.255",
+        "access-list 101 permit 10.13.3.5 0.0.0.0",
+        "line vty 0 4",
+        "access-class 101 in",
+        "transport input telnet ssh",
+        "end"
     ]),
     'S1': ('172.31.13.3', [
         "vlan 101", 
@@ -40,6 +54,13 @@ devices = {
         "int gi 1/1", "switchport mode access", "switchport access vlan 101",
         "no shut",
         "exit"
+        # add extended ACL
+        "access-list 101 permit 172.31.13.0 0.0.0.255",
+        "access-list 101 permit 10.13.3.5 0.0.0.0",
+        "line vty 0 4",
+        "access-class 101 in",
+        "transport input telnet ssh",
+        "end"
     ])
 }
 
